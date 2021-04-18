@@ -1,6 +1,10 @@
 package com.nerdz.selfielib
 
-import android.app.Application
+import com.nerdz.selfielib.models.CameraResult
+import com.nerdz.selfielib.screens.camera_screen.SelfieFragment
 
-class SelfieLib: Application() {
+interface SelfieLib {
+    fun startCameraAsFragment(callback: cameraResultCallback) : SelfieFragment
 }
+
+typealias cameraResultCallback = (CameraResult) -> Unit

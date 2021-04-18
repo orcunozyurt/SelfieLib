@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.camera_screen.CameraActivity">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/view_finder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.nerdz.selfielib.ml.GraphicOverlay
+        android:id="@+id/detection_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+    <com.nerdz.selfielib.views_custom.OvalOverlay
+        android:id="@+id/oval_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/ovalOverlay_instruction_tw"
+        android:gravity="center"
+        android:text="@string/ovalOverlay_instruction"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/eyes_instruction_tw"
+        android:gravity="center"
+        android:text="@string/eyes_instruction"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ovalOverlay_instruction_tw"/>
+
+    <TextView
+        android:id="@+id/smile_instruction_tw"
+        android:gravity="center"
+        android:text="@string/smile_instruction"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/eyes_instruction_tw"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_rawRes="@raw/instagramanimation"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/action_section"
+        android:layout_width="match_parent"
+        android:background="@android:color/background_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="100dp">
+
+        <ImageButton
+            android:id="@+id/camera_capture_button"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:scaleType="fitCenter"
+            android:background="@drawable/ic_action_capture"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:elevation="2dp" />
+
+        <ImageButton
+            android:id="@+id/camera_flip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/camera_capture_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:background="@null"
+            android:src="@drawable/ic_action_flip_camera" />
+
+
+        <ImageButton
+            android:id="@+id/smiley_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@+id/camera_capture_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="@dimen/margin_large"
+            android:background="@null"
+            android:src="@drawable/ic_action_smiley"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

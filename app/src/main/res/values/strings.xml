@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SelfieLib</string>
+    <string name="smile_instruction">Maybe a little smile ?</string>
+    <string name="ovalOverlay_instruction">Please position you face in oval area</string>
+    <string name="eyes_instruction">Keep your eyes open</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_medium">20dp</dimen>
+    <dimen name="margin_large">40dp</dimen>
+    <dimen name="button_width">50dp</dimen>
+    <dimen name="button_height">50dp</dimen>
+    <dimen name="instruction_icon_size">20dp</dimen>
+</resources>
