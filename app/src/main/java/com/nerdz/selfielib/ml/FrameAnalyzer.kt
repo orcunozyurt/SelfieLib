@@ -10,14 +10,13 @@ import com.google.mlkit.vision.face.FaceDetectorOptions
 
 typealias DetectionsResultListener = (detectionList: List<Detection>) -> Unit
 
+/**
+ * ImageAnalysis class. Responsible from analysing each and every frame that is sent by CameraX API.
+ * CameraX API is a wrapper of Camera2.
+ * @param detectionsResultListener:  All face detections are passed back by this listener.
+ */
 class FrameAnalyzer(val detectionsResultListener: DetectionsResultListener)
     : ImageAnalysis.Analyzer {
-    // High-accuracy landmark detection and face classification
-    val highAccuracyOpts = FaceDetectorOptions.Builder()
-        .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-        .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
-        .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-        .build()
 
     // Real-time contour detection
     private val realTimeOpts = FaceDetectorOptions.Builder()
@@ -29,7 +28,6 @@ class FrameAnalyzer(val detectionsResultListener: DetectionsResultListener)
 
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(image: ImageProxy) {
-
         val mediaImage = image.image
         val rotationDegrees = image.imageInfo.rotationDegrees
         val inputImage = InputImage.fromMediaImage(mediaImage, rotationDegrees)
@@ -46,7 +44,6 @@ class FrameAnalyzer(val detectionsResultListener: DetectionsResultListener)
                         mediaImage.height
                     )
                 detections.add(detection)
-                //bitmap = overlayBitmaps(bitmap, blurBitmap, bbx.left.toFloat(), bbx.top.toFloat())
             }
             detectionsResultListener(detections)
 

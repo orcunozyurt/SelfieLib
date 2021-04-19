@@ -9,8 +9,10 @@ import androidx.fragment.app.FragmentManager
 import com.nerdz.selfielib.models.CameraResult
 import com.nerdz.selfielib.screens.camera_screen.SelfieFragment
 
+/**
+ * This view needs to be integrated to an activity/fragment in order to use Selfie Camera.
+ */
 class SelfieView(context: Context, attributeSet: AttributeSet?) : LinearLayout(context, attributeSet) {
-
     private var selfieFragment: SelfieFragment
 
     init {
@@ -18,6 +20,11 @@ class SelfieView(context: Context, attributeSet: AttributeSet?) : LinearLayout(c
         selfieFragment = SelfieFragment()
     }
 
+    /**
+     * After integrating the view, this function needs to be called with a listener
+     * So that library can notify app when there is a selfie taken.
+     * @param listener a lambda implementation of listener.
+     */
     fun start(listener: ((CameraResult)->Unit)) {
         selfieFragment.listener = listener
         val fragmentManager = getFragmentManager(context)
