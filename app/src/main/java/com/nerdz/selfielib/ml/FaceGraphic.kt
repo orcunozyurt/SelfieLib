@@ -12,7 +12,8 @@ import kotlin.math.max
  * Graphic instance for rendering face position, contour, and landmarks within the associated
  * graphic overlay view.
  */
-class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) : GraphicOverlay.Graphic(overlay) {
+class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face, private val showLandmarks: Boolean)
+    : GraphicOverlay.Graphic(overlay) {
     private val facePositionPaint: Paint
     private val numColors = COLORS.size
     private val idPaints = Array(numColors) { Paint() }
@@ -50,6 +51,7 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
     /** Draws the face annotations for position on the supplied canvas.  */
     override fun draw(canvas: Canvas?) {
+        if (!showLandmarks) return
 
         // Calculate positions.
         val positions = calculateScaledFace()

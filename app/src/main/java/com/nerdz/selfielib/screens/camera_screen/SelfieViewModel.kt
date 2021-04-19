@@ -9,20 +9,18 @@ import androidx.lifecycle.ViewModel
 import com.nerdz.selfielib.ml.Detection
 import com.nerdz.selfielib.models.Instruction
 
-class CameraViewModel : ViewModel(){
-    val targetResolution = Size(480, 640)
+class SelfieViewModel : ViewModel(){
+    val targetResolution = Size(1080, 1920)
 
     private var _instructions: MutableLiveData<Instruction> =
         MutableLiveData(
             Instruction(
                 isFaceOnPosition = false,
                 isSmiling = false,
-                areEyesOpen = false,
-                image = null
+                areEyesOpen = false
             )
         )
     var instructions: LiveData<Instruction> = _instructions
-
 
     fun processDetections(ovalAreaBoundingBox: RectF, scaledFaceBoundingBox: RectF, detection: Detection) {
         val isFaceOnPosition = isFaceOnPosition(ovalAreaBoundingBox, scaledFaceBoundingBox)
@@ -39,8 +37,7 @@ class CameraViewModel : ViewModel(){
         val instruction = Instruction(
             isFaceOnPosition = isFaceOnPosition,
             isSmiling = isSmiling,
-            areEyesOpen = areEyesOpen,
-            image = detection.image
+            areEyesOpen = areEyesOpen
         )
         _instructions.postValue(instruction)
     }
@@ -48,6 +45,7 @@ class CameraViewModel : ViewModel(){
     private fun isFaceOnPosition(ovalAreaBoundingBox: RectF, scaledFaceBoundingBox: RectF) : Boolean {
         return ovalAreaBoundingBox.contains(scaledFaceBoundingBox)
     }
+
 
     companion object {
         const val threshold = 0.6f

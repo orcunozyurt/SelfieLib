@@ -2,11 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.camera_screen.CameraActivity">
+    android:layout_height="match_parent">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/view_finder"
@@ -83,40 +81,17 @@
         android:layout_height="100dp">
 
         <ImageButton
-            android:id="@+id/camera_capture_button"
+            android:id="@+id/landmark_button"
             android:layout_width="@dimen/button_width"
             android:layout_height="@dimen/button_height"
             android:layout_marginBottom="@dimen/margin_medium"
             android:scaleType="fitCenter"
-            android:background="@drawable/ic_action_capture"
+            android:background="@drawable/ic_action_smiley"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:elevation="2dp" />
 
-        <ImageButton
-            android:id="@+id/camera_flip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@+id/camera_capture_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:background="@null"
-            android:src="@drawable/ic_action_flip_camera" />
-
-
-        <ImageButton
-            android:id="@+id/smiley_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toLeftOf="@+id/camera_capture_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="@dimen/margin_large"
-            android:background="@null"
-            android:src="@drawable/ic_action_smiley"
-            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

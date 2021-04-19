@@ -10,7 +10,8 @@ import com.google.mlkit.vision.face.FaceDetectorOptions
 
 typealias DetectionsResultListener = (detectionList: List<Detection>) -> Unit
 
-class FrameAnalyzer(val detectionsResultListener: DetectionsResultListener): ImageAnalysis.Analyzer {
+class FrameAnalyzer(val detectionsResultListener: DetectionsResultListener)
+    : ImageAnalysis.Analyzer {
     // High-accuracy landmark detection and face classification
     val highAccuracyOpts = FaceDetectorOptions.Builder()
         .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
@@ -42,8 +43,7 @@ class FrameAnalyzer(val detectionsResultListener: DetectionsResultListener): Ima
                         face,
                         rotationDegrees,
                         mediaImage!!.width,
-                        mediaImage.height,
-                        mediaImage
+                        mediaImage.height
                     )
                 detections.add(detection)
                 //bitmap = overlayBitmaps(bitmap, blurBitmap, bbx.left.toFloat(), bbx.top.toFloat())

@@ -57,6 +57,7 @@ dependencies {
 
     // Lottie
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation "androidx.arch.core:core-testing:$arch_version"
     testImplementation 'junit:junit:4.12'

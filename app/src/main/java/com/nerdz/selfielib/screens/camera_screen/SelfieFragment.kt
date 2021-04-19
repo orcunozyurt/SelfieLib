@@ -5,18 +5,13 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.media.Image
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -35,14 +30,16 @@ import com.nerdz.selfielib.extensions.runOnUiThread
 import com.nerdz.selfielib.ml.FaceGraphic
 import com.nerdz.selfielib.ml.FrameAnalyzer
 import com.nerdz.selfielib.ml.GraphicOverlay
+import com.nerdz.selfielib.models.CameraResult
 import com.nerdz.selfielib.views_custom.OvalOverlay
 import java.util.concurrent.Executors
 import kotlin.random.Random
 
-
 class SelfieFragment : Fragment() {
 
-    private val viewModel: CameraViewModel by viewModels()
+    var listener: ((CameraResult)->Unit)? = null
+
+    private val viewModel: SelfieViewModel by viewModels()
     private val executor = Executors.newSingleThreadExecutor()
     private val permissions = listOf(Manifest.permission.CAMERA)
     private val permissionsRequestCode = Random.nextInt(0, 10000)
@@ -54,7 +51,10 @@ class SelfieFragment : Fragment() {
     private lateinit var textViewSmileInstruction: TextView
     private lateinit var textViewEyesInstruction: TextView
     private lateinit var textViewFacePositionInstruction: TextView
+    private lateinit var landmarkButton: ImageButton
     private lateinit var animationView: LottieAnimationView
+
+    private var showLandmarks = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,7 +74,12 @@ class SelfieFragment : Fragment() {
         textViewFacePositionInstruction = view.findViewById(R.id.ovalOverlay_instruction_tw)
         textViewSmileInstruction = view.findViewById(R.id.smile_instruction_tw)
         textViewEyesInstruction = view.findViewById(R.id.eyes_instruction_tw)
+        landmarkButton = view.findViewById(R.id.landmark_button)
         animationView = view.findViewById(R.id.animationView)
+
+        landmarkButton.setOnClickListener {
+            toggleLandmark()
+        }
 
         viewModel.instructions.observe(viewLifecycleOwner, { instruction ->
             updateInstructionIcon(textViewFacePositionInstruction, instruction.isFaceOnPosition)
@@ -82,8 +87,7 @@ class SelfieFragment : Fragment() {
             updateInstructionIcon(textViewEyesInstruction, instruction.areEyesOpen)
 
             if (instruction.canTakePhoto() && !animationView.isAnimating) {
-                val image = instruction.image
-                if (image != null) showAnimation(photoTaken = image)
+                showAnimation()
             }
         })
     }
@@ -98,17 +102,16 @@ class SelfieFragment : Fragment() {
         } else {
             startCamera()
             container.postDelayed({
-                container.systemUiVisibility = CameraActivity.FLAGS_FULLSCREEN
-            }, CameraActivity.IMMERSIVE_FLAG_TIMEOUT)
+                container.systemUiVisibility = FLAGS_FULLSCREEN
+            }, IMMERSIVE_FLAG_TIMEOUT)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-
-        // Clear the systemUiVisibility flag
-        activity?.window?.decorView?.systemUiVisibility = 0
+        activity?.window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
     override fun onDestroy() {
@@ -216,7 +219,7 @@ class SelfieFragment : Fragment() {
                     detections.forEach { detection ->
                         graphicOverlay.setImageSourceInfo(
                             detection.imgHeight, detection.imgWidth, true)
-                        val faceGraphic = FaceGraphic(graphicOverlay, detection.face)
+                        val faceGraphic = FaceGraphic(graphicOverlay, detection.face, showLandmarks)
                         graphicOverlay.add(faceGraphic)
 
                         viewModel.processDetections(
@@ -241,7 +244,7 @@ class SelfieFragment : Fragment() {
         animationView.visibility = View.GONE
     }
 
-    private fun showAnimation(photoTaken: Image) {
+    private fun showAnimation() {
         animationView.visibility = View.VISIBLE
         animationView.addAnimatorListener(object: Animator.AnimatorListener {
             override fun onAnimationStart(p0: Animator?) {
@@ -249,6 +252,7 @@ class SelfieFragment : Fragment() {
 
             override fun onAnimationEnd(p0: Animator?) {
                 animationView.visibility = View.GONE
+                listener?.invoke(CameraResult(mediaBitmap = viewFinder.bitmap))
             }
 
             override fun onAnimationCancel(p0: Animator?) {
@@ -259,6 +263,10 @@ class SelfieFragment : Fragment() {
 
         })
         animationView.playAnimation()
+    }
+
+    private fun toggleLandmark() {
+        showLandmarks = !showLandmarks
     }
 
 
