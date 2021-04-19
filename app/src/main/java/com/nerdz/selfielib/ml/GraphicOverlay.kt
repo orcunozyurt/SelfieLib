@@ -64,14 +64,6 @@ class GraphicOverlay : View {
         postInvalidate()
     }
 
-    fun getImageWidth(): Int {
-        return imageWidth
-    }
-
-    fun getImageHeight(): Int {
-        return imageHeight
-    }
-
     private fun updateTransformationIfNeeded() {
         if (!needUpdateTransformation || imageWidth <= 0 || imageHeight <= 0) {
             return
@@ -121,15 +113,6 @@ class GraphicOverlay : View {
         /** Adjusts the supplied value from the image scale to the view scale.  */
         open fun scale(imagePixel: Float): Float {
             return imagePixel * overlay!!.scaleFactor
-        }
-
-        /** Returns the application context of the app.  */
-        open fun getApplicationContext(): Context? {
-            return overlay!!.context.applicationContext
-        }
-
-        open fun isImageFlipped(): Boolean {
-            return overlay!!.isImageFlipped
         }
 
         /**
